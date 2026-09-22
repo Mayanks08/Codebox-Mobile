@@ -12,7 +12,7 @@ export function getAuthRedirectUri() {
     return makeRedirectUri({path:'auth/callback'});
 }
 
-export function isAuthCallBackUrl(url: string) {
+export function isAuthCallbackUrl(url: string) {
     const {params} = QueryParams.getQueryParams(url);
     return !! (params.code || params.access_token && params.refresh_token );
 

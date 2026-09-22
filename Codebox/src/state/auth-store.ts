@@ -1,3 +1,4 @@
+import { createSessionFromUrl, isAuthCallbackUrl } from '@/lib/auth';
 import { create } from 'zustand';
 import {supabase} from '../lib/supabase';
 
@@ -49,8 +50,10 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         }
 
     },
-    handleDeeplink: async (url: string) => {
-        const { data, error } = await supabase.auth.getSessionFromUri({ url });},
+    handleDeeplink: async(url) => {
+        if(!isAuthCallbackUrl(url))
+            return ;
+        await createSessionFromUrl(url); },
     signOut: async () => {
        const { error } = await supabase.auth.signOut();
         if (error) throw error;
