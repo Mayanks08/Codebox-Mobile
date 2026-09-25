@@ -1,4 +1,5 @@
-import { AntDesign, Feather } from '@expo/vector-icons'
+import AntDesign from "@react-native-vector-icons/ant-design";
+import Feather from "@react-native-vector-icons/feather";
 import * as WebBrowser from 'expo-web-browser'
 import { useEffect, useState } from 'react'
 import {
