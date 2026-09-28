@@ -1,6 +1,7 @@
 import AntDesign from "@react-native-vector-icons/ant-design";
 import Feather from "@react-native-vector-icons/feather";
 import * as WebBrowser from 'expo-web-browser'
+import type { ComponentProps } from 'react'
 import { useEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -179,7 +180,7 @@ function FeatureRow({
   title,
   subtitle,
 }: {
-  icon: keyof typeof Feather.glyphMap
+  icon: ComponentProps<typeof Feather>['name']
   color: string
   title: string
   subtitle: string

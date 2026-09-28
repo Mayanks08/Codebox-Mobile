@@ -229,3 +229,232 @@ function ActionCard({
         </Pressable>
   )
 }
+
+function StatCard({
+  label,
+  value,
+  tint,
+}: {
+  label: string,
+  value: string,
+  tint: string,
+}) {
+  return (
+    <View style={styles.statCard}>
+      <View style={[styles.statDot, { backgroundColor: tint }]} />
+      <View style ={styles.statValue}>{value}</View>
+      <Text style={styles.statLabel}>{label}</Text>
+      
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  safe: {
+    flex: 1,
+  },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.background,
+  },
+  scroll: {
+    flexGrow: 1,
+  },
+  topRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoBox: {
+    width: 40,
+    height: 40,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: colors.limeSoft,
+    borderWidth: 1,
+    borderColor: colors.limeBorder,
+  },
+  logoImage: {
+    width: 26,
+    height: 26,
+  },
+  brand: {
+    color: colors.foreground,
+    fontSize: 18,
+    fontWeight: '700',
+    marginLeft: 10,
+  },
+  welcomeRow: {
+    marginTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    backgroundColor: 'rgba(189, 240, 110, 0.18)',
+    borderWidth: 2,
+    borderColor: colors.lime,
+  },
+  avatarImage: {
+    width: '100%',
+    height: '100%',
+  },
+  avatarInitials: {
+    color: colors.lime,
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  welcomeText: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  welcomeLabel: {
+    color: colors.muted,
+    fontSize: 12,
+  },
+  welcomeName: {
+    color: colors.foreground,
+    fontSize: 22,
+    lineHeight: 28,
+    fontWeight: '700',
+  },
+  heroCard: {
+    marginTop: 20,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: 'rgba(189, 240, 110, 0.35)',
+    backgroundColor: 'rgba(189, 240, 110, 0.12)',
+    padding: 18,
+  },
+  heroContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  heroTextWrap: {
+    flex: 1,
+    paddingRight: 12,
+  },
+  heroTitle: {
+    color: colors.foreground,
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: '700',
+  },
+  heroSubtitle: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 18,
+    marginTop: 4,
+  },
+  heroIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(10, 10, 12, 0.4)',
+  },
+  sectionHeader: {
+    marginTop: 24,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sectionTitle: {
+    color: colors.foreground,
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  sectionHint: {
+    color: colors.muted,
+    fontSize: 12,
+  },
+  actions: {
+    marginTop: 12,
+    gap: 10,
+  },
+  actionCard: {
+    borderRadius: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+  },
+  pressed: {
+    opacity: 0.7,
+  },
+  actionIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionText: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  actionTitle: {
+    color: colors.foreground,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  actionSubtitle: {
+    color: colors.muted,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  weekSection: {
+    marginTop: 24,
+  },
+  statsRow: {
+    marginTop: 12,
+    flexDirection: 'row',
+    gap: 10,
+  },
+  statCard: {
+    flex: 1,
+    borderRadius: 16,
+    padding: 16,
+    backgroundColor: colors.card,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
+  },
+  statDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginBottom: 8,
+  },
+  statValue: {
+    color: colors.foreground,
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '700',
+  },
+  statLabel: {
+    color: colors.muted,
+    fontSize: 11,
+    marginTop: 2,
+  },
+})
