@@ -83,14 +83,99 @@ export default function  ProblemsScreen() {
       })
       }
 
-const index = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
+      return (
+        <View style= {styles.screen}>
+          <SafeAreaView style={styles.safe} edges={['top']}>
+            <ScrollView
+              contentContainerStyle={[styles.scroll, contentPadding]}
+              showsVerticalScrollIndicator={false}
+              contentInsetAdjustmentBehavior="automatic"
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => void load(true)}
+                  tintColor={colors.lime}
+                />
+              }
+            >
+              <View style={styles.headerRow}>
+                <Text style={styles.title}>Coding Problems</Text>
+                <View style={style.countBadge}>
+                  <Text Style= {styles.countText}>{problems.length} Total</Text>
+                </View>
+              </View>
+              <View style={styles.searchBox}>
+                <Feather name="search" size={20} color={colors.mutedDark} />
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Search by title or tag"
+                  placeholderTextColor={colors.mutedDark}
+                  value={search}
+                  onChangeText={setSearch}
+                  returnKeyType="search"
+                />
+                {search.length > 0 ? (
+                  <Pressable onPress={() => setSearch('')} hitshlop= {8}>
+                    <Feather name='x' size={14} color={colors.mutedDark} />
+                    </Pressable>
+                ) : null}
+              </View>
+
+              <Pressable 
+                onPress={() => setFiltersOpen(true)}
+                style={({pressed}) => [
+                  styles.filterButton,
+                  pressed && styles.filterButton,
+                ]}
+              >
+                <Ionicons name="filter-outline" size={16} color={colors.mutedDark} />
+                <Text style={styles.filterLabel}>Filters</Text>
+                {activeDifficulties.size > 0 ? (
+                  <View style={styles.filterCount}>
+                    <Text style={styles.filterCountText}>{activeDifficulties.size}</Text>
+                  </View>
+                ) : null}
+              </Pressable>
+
+              <View style={styles.list}>
+                {loading ? (
+                  <ActivityIndicator size={{marginTop: 40 }} color={colors.lime}  />
+                ) : error ? (
+                  <View style={styles.empty}
+                  <Feather name="alert-circle" size={28} color={colors.mutedDark} />
+                  <Text style={styles.emptyTitle}>Failed to load problems</Text>
+                  <Text style={styles.emptySubtitle}>{error}</Text>
+                  <Pressable
+                    onPress={() =>  load()}
+                    style={({pressed}) => [
+                      styles.retryButton,
+                      pressed && styles.Pressed,
+                    ]}
+                  >
+                    <Text style={styles.retryButtonText}>Try again</Text>
+                  </Pressable>
+                  </View>
+                ) : filtered.length === 0 ? (
+                  <View style={styles.empty}>
+                    <Feather name="inbox" size={28} color={colors.mutedDark} />
+                    <Text style={styles.emptyTitle}>No problems found</Text>
+                    <Text style={styles.emptySubtitle}>
+                      Try adjusting your search or filters
+                    </Text>
+                  </View>
+                ) : (
+                  filtered.map((problem) => (
+                    <ProblemCard
+                      key={problem.id}
+                      problem={problem}
+                      />
+                  ))
+                )}
+              </View>
+            </ScrollView>
+          </SafeAreaView>
   )
 }
 
-export default index
 
 const styles = StyleSheet.create({})
