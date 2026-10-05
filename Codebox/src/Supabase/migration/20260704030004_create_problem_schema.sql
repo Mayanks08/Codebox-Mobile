@@ -13,6 +13,40 @@ begin
 end;
 $$;
 
+-- Profiles (maps to auth.users)
+create table public.profiles (
+  id uuid primary key references auth.users (id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create trigger profiles_set_updated_at
+  before update on public.profiles
+  for each row
+  execute function public.set_updated_at();
+
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+begin
+  insert into public.profiles (id)
+  values (new.id);
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row
+  execute function public.handle_new_user();
+
+insert into public.profiles (id)
+select id from auth.users
+on conflict (id) do nothing;
+
 -- Problems
 create table public.problems (
   id uuid primary key default gen_random_uuid(),
@@ -93,10 +127,25 @@ create index problem_solved_user_id_idx on public.problem_solved (user_id);
 create index problem_solved_problem_id_idx on public.problem_solved (problem_id);
 
 -- RLS
+alter table public.profiles enable row level security;
 alter table public.problems enable row level security;
 alter table public.submissions enable row level security;
 alter table public.test_case_results enable row level security;
 alter table public.problem_solved enable row level security;
+
+-- Profiles: users read all profiles; update only their own row.
+create policy "profiles_select_authenticated"
+  on public.profiles
+  for select
+  to authenticated
+  using (true);
+
+create policy "profiles_update_own"
+  on public.profiles
+  for update
+  to authenticated
+  using ((select auth.uid()) = id)
+  with check ((select auth.uid()) = id);
 
 -- Problems: authenticated users can read public fields only.
 -- test_cases + reference_solutions stay service_role-only (column grants below).
@@ -137,10 +186,14 @@ create policy "problem_solved_select_own"
 
 -- Privileges: least privilege for client roles.
 -- service_role bypasses RLS and retains full access for the judging API.
+revoke all on table public.profiles from anon, authenticated;
 revoke all on table public.problems from anon, authenticated;
 revoke all on table public.submissions from anon, authenticated;
 revoke all on table public.test_case_results from anon, authenticated;
 revoke all on table public.problem_solved from anon, authenticated;
+
+grant select on table public.profiles to authenticated;
+grant update on table public.profiles to authenticated;
 
 -- Public problem columns only (hide hidden tests + reference solutions).
 grant select (
