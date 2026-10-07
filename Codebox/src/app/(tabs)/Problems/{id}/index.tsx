@@ -185,5 +185,153 @@ export default function ProblemDetailsScreen() {
               </Text>
             </View>
           </View>
+
+          <View style={styles.metaRow}>
+            <View style={styles.metaleft}>
+              <Feather name ="tag" size={13} color={colors.lime} />
+              <Text style={styles.metaText}>{problem.tags.slice(0,2).join('.') || 'General'}</Text>
+            </View>
+            <Pressable
+            onPress={() => Alert.alert('Report Bug ','Thanks! Bug Reporting is coming soon.')}
+            hotslop={6}
+            Style={({ pressed }) => [
+              styles.reportButton,
+              pressed && styles.pressed
+            ]}
+            >
+              <Ionicons name="bug-outline" size={16} color={colors.muted} />
+              <Text style={styles.reportText}>Report Bug</Text>
+            </Pressable>
+          </View>
+
+          <View style ={styles.tabs}>
+            {TABS.map((tab) => {
+              const active = activeTab === tab.id
+              return (
+                <Pressable
+                  key={tab.id}
+                  onPress={() => setActiveTab(tab.id)}
+                  style={({ pressed }) => [
+                    styles.tabItem,
+                    pressed && styles.pressed,]}
+                >
+                  <View style = {styles.tablabelRow}>
+                    <Feather
+                      name={tab.icon}
+                      size={13}
+                      color={active ?colors.peach : colors.muted}
+                    />
+                    <Text 
+                    style = {[
+                      styles.tabLabel,
+                      { color: active ? colors.peach : colors.muted },
+                    ]}
+                    >
+                      {tab.label}
+                    </Text>
+                  </View>
+                  {active ? <View style={styles.tabIndicator} /> : null} 
+                </Pressable>
+              )
+            })}
+          </View>
+
+          <View Style = {styles.tabBody}>
+            {activeTab === 'description' ? (
+              <Description problem={problem} />
+            ) : null }
+            { activeTab === 'solutions' ? (
+              <LockedTab
+              tile = "solutions are locked "
+              subtitle = "Solutions will be available after you submit a correct solution."
+              icon = "lock"
+              />
+            ) : null}
+            {activeTab === 'submissions' ? (
+              <SubmissionsTab
+                submissions={submissions}
+                loading={submissionsLoading}
+              />
+            ) : null}
+            </View>
+            <View style={styles.footer}>
+              <Pressable
+                onPress={() => router.push(`/problems/${problem.id}/submit` as never)}
+                style={({ pressed }) => [
+                  styles.submitButton,
+                  pressed && styles.pressed,
+                ]}
+              >
+                <Text style={styles.submitLabel}>Submit Solution</Text>
+                <Feather name="play" size ={16} color= "#1f1208"/>
+              </Pressable>
+            </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
+  )}
+
+  functiun descriptionTab ({ problem }: { problem: Problem }) {
+    const examples = getExamples(problem)
+    const contraints = getConstraintLines(problem.constraints)
+
+    return (
+      <View>
+        <RichDescritpion text={problem.description} />
+
+        {examples.map((example, index) => (
+          <ExampleBlock
+            key={index}
+            example={example}
+            index={index}
+          />
+        ))}
+        {contraints.length > 0 ?  (
+          <View style ={styles.section}>
+            <Text style={styles.sectionTitle}>Constraints</Text>
+            <View style= {styles.constaintsList}>
+              {contraints.map((constraint, index) => (
+                <View key ={index} style={styles.constraintRow}>
+                  <Text Style ={styles.bullet }>•</Text>
+                  <Text style={styles.constraintText}>{constraint}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        ) : null
+          }
+          {problem.tags.length  > 0 ? (
+            <View style={styles.section}>
+              <Text style={styles.TagsLabel}>TAGS</Text>
+              <View style={styles.tagsRow}>
+                {problem.tags.map((tag) => (
+                  <View key ={tag} style ={styles.tagChip}>
+                    <Text style={styles.tagText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          ) : null}
+      </View>
   ) 
 }
+
+function LockedTab({
+  example,
+  index
+}: {
+  example: LanguageExample
+  index: number
+}) {
+  return (
+    <View style ={styles.section }>
+      <Text Style={styles.sectionTitle}>Example {index + 1}</Text>
+      <View style={styles.codeBlock}>
+      <Text style={styles.codeLine}>
+        <Text style={styles.codeMuted}>input :</Text>
+        {example.input}
+      </Text>
+}
+
+
+
