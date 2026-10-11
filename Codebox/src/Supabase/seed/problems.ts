@@ -1,20 +1,4 @@
-/**
- * Problem seed data — matches the create-problem Zod schema (camelCase).
- *
- * Files:
- *   supabase/seed/problems.ts  ← edit / add problems here (source of truth)
- *   supabase/seed.sql          ← run this in Supabase SQL Editor to insert rows
- *
- * Column mapping for inserts:
- *   testCases           → test_cases
- *   codeSnippets        → code_snippets
- *   referenceSolutions  → reference_solutions
- *
- * Programmatic insert (service_role only — clients cannot write problems):
- *
- *   import { problemInserts } from '@/../supabase/seed/problems'
- *   await supabase.from('problems').insert(problemInserts)
- */
+
 
 export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD'
 
