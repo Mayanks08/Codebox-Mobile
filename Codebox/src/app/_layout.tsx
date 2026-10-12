@@ -9,6 +9,7 @@ import 'react-native-url-polyfill/auto'
 
 SplashScreen.preventAutoHideAsync()
 
+
 function RootNavigator() {
   const session = useAuthStore((s) => s.session)
   const isLoading = useAuthStore((s) => s.isLoading)
@@ -51,6 +52,7 @@ function RootNavigator() {
     )
   }
 
+  
   return (
     <Stack
       screenOptions={{
@@ -65,6 +67,7 @@ function RootNavigator() {
     </Stack>
   )
 }
+
 
 export default function RootLayout() {
   return (
